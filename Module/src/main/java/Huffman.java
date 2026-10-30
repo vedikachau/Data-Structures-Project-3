@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 //helllo hello
-
+///elle: cntFreq,
+/// comesBefore, combine, addNode, removeMin,
 /**
  * Project 3: Huffman Encoding / Decoding.
  *
