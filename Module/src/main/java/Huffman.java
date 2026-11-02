@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 //helllo hello
-///elle: cntFreq,
-/// comesBefore, combine, addNode, removeMin,
+///elle: cntFreq, addNode Remove Min
+///done?: comesBefore, combine,
 /**
  * Project 3: Huffman Encoding / Decoding.
  *
@@ -38,6 +38,9 @@ public class Huffman {
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
+        for(int i = 0; i < freq.length; i++){
+          //  freq[i] = ;
+        }
         return freq;
     }
 
