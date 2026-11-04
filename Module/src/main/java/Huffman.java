@@ -25,6 +25,8 @@ import java.util.*;
  *    "get" prefix.
  */
 public class Huffman {
+    public Huffman[] = new Huffman[256];
+
 
     /** Number of possible 8-bit character values. */
     public static final int NUM_CHARS = 256;
@@ -38,8 +40,15 @@ public class Huffman {
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
+        String[] str = filename.split("");
         for(int i = 0; i < freq.length; i++){
-          //  freq[i] = ;
+           int count =0;
+            for(int j=0; j<str.length; j++){
+               if (str[j].equals((int) ((char) str[i]))){ //converto to ascii value used int freq idfk atp
+                   count++;
+               }
+            }
+            freq[i] = count;
         }
         return freq;
     }
