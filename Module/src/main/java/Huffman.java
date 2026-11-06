@@ -128,7 +128,7 @@ no children. */
                 addNode(coll,n);
             }
         }
-        
+
         if(coll.isEmpty()){
             return null;
         }
