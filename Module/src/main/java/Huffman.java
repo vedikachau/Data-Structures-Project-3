@@ -88,6 +88,19 @@ public class Huffman {
      */
     public static HuffmanNode createHuffTree(int[] freq) {
         // TODO: implement
+        /*returns the root node of the resulting Huffman tree.
+•  Start by creating a leaf node for every character with a non-zero count, and use addNode to place each
+one into your chosen collection.
+• While the collection holds more than one node: remove the two smallest nodes with removeMin,
+connect them with combine to form a new internal node, and use addNode to place that new node
+back into the collection.
+• Continue until exactly one node remains in the collection – that node is the root of the completed
+Huffman tree. Return it.
+• Special case: if freqList has no non-zero counts (the input file was empty), createHuffTree
+should return null (or None, per your language).
+• Special case: if freqList has exactly one non-zero count (the input file has only one unique
+character), createHuffTree should return a single node containing that character and its count, with
+no children. */
         return null;
     }
 
