@@ -52,12 +52,19 @@ public class HuffmanTest {
         HuffmanNode d = new HuffmanNode(24,48,a,b);
         assertEquals(c,d);
     }
+    @Test
+    public void addNode(){
 
+    }
+    @Test
+    public void removemin(){
+
+    }
     /**
      * Compares two files line by line, trimming trailing CR/LF so the
      * comparison works the same on Windows and Unix-style line endings.
      */
-    
+
     private static boolean compareFiles(String file1, String file2) throws IOException {
         try (BufferedReader r1 = new BufferedReader(new FileReader(file1));
              BufferedReader r2 = new BufferedReader(new FileReader(file2))) {
