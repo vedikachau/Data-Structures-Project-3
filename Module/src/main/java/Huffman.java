@@ -1,9 +1,11 @@
 import java.io.*;
 import java.util.*;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 //helllo hello
-///elle: cntFreq, addNode Remove Min
-///done?: comesBefore, combine,
+///elle: , addNode Remove Min
+///done?: comesBefore, combine, cnt freq
 /**
  * Project 3: Huffman Encoding / Decoding.
  *
@@ -25,7 +27,7 @@ import java.util.*;
  *    "get" prefix.
  */
 public class Huffman {
-    public Huffman[] = new Huffman[256];
+
 
 
     /** Number of possible 8-bit character values. */
@@ -39,17 +41,14 @@ public class Huffman {
      */
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
-        // TODO: implement
-        String[] str = filename.split("");
-        for(int i = 0; i < freq.length; i++){
-           int count =0;
-            for(int j=0; j<str.length; j++){
-               if (str[j].equals((int) ((char) str[i]))){ //converto to ascii value used int freq idfk atp
-                   count++;
-               }
-            }
-            freq[i] = count;
+        Scanner input = new Scanner(new File(filename));
+        input.useDelimiter("\\Z"); //i had to google this 1 ngl
+        String str = input.hasNext() ? input.next() : "";
+        for(int i = 0; i < str.length(); i++){
+          int ascii = (int) str.charAt(i);
+          freq[ascii]++;
         }
+        input.close();
         return freq;
     }
 
@@ -65,6 +64,7 @@ public class Huffman {
      */
     public static void addNode(Collection<HuffmanNode> collection, HuffmanNode node) {
         // TODO: implement
+        
     }
 
     /**
