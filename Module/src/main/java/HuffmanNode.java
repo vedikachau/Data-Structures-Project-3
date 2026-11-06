@@ -55,7 +55,7 @@ public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode
      * of a's and b's charAscii values (used to break ties later on).
      */
     public static HuffmanNode combine(HuffmanNode a, HuffmanNode b) {
-        // TODO: implement
+
         HuffmanNode node;
         HuffmanNode l;
         HuffmanNode r;

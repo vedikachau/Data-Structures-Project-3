@@ -114,7 +114,7 @@ public class Huffman {
                 addNode(coll,n);
             }
         }
-        
+
         if(coll.isEmpty()){
             return null;
         }

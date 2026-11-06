@@ -44,10 +44,20 @@ public class HuffmanTest {
         assertTrue(compareFiles("file1_out.txt", "file1_soln.txt"));
     }
 
+    @Test
+    public void combine(){
+        HuffmanNode a = new HuffmanNode(67, 23);
+        HuffmanNode b = new HuffmanNode(24, 25);
+        HuffmanNode c = HuffmanNode.combine(a,b);
+        HuffmanNode d = new HuffmanNode(24,48,a,b);
+        assertEquals(c,d);
+    }
+
     /**
      * Compares two files line by line, trimming trailing CR/LF so the
      * comparison works the same on Windows and Unix-style line endings.
      */
+    
     private static boolean compareFiles(String file1, String file2) throws IOException {
         try (BufferedReader r1 = new BufferedReader(new FileReader(file1));
              BufferedReader r2 = new BufferedReader(new FileReader(file2))) {
@@ -67,4 +77,5 @@ public class HuffmanTest {
             }
         }
     }
+
 }
