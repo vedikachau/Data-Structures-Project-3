@@ -158,6 +158,7 @@ no children. */
         String[] codes = new String[NUM_CHARS];
         Arrays.fill(codes, "");
         // TODO: implement
+        //need to traverse tree and build the code for each character
         return codes;
     }
 
@@ -171,7 +172,12 @@ no children. */
      */
     public static String createHeader(int[] freq) {
         // TODO: implement
-        return "";
+        //work more on this
+        String s = "";
+        for (int i=0;i<freq.length;i++){
+            s+=freq[i] + "";
+        }
+        return s;
     }
 
     /**
@@ -189,6 +195,9 @@ no children. */
      */
     public static void huffmanEncode(String inFile, String outFile) throws IOException {
         // TODO: implement
+        if(inFile==""){
+            outFile="";
+        }
     }
 
     /**
@@ -201,6 +210,7 @@ no children. */
     public static int[] parseHeader(String headerString) {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
+        //work more on this
         return freq;
     }
 
