@@ -30,8 +30,19 @@ public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode
      * with the smaller ASCII value comes first.
      */
     public static boolean comesBefore(HuffmanNode a, HuffmanNode b) {
-        // TODO: implement
-        return false;
+        // TODO:
+        if(a.freq < b.freq){
+           return true;
+        }
+        else if (b.freq < a.freq){
+            return false;
+        }
+        else{
+            if(a.charAscii < b.charAscii){
+                return true;
+            }
+            return false;
+        }
     }
 
     /**
@@ -45,7 +56,19 @@ public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode
      */
     public static HuffmanNode combine(HuffmanNode a, HuffmanNode b) {
         // TODO: implement
-        return null;
+        HuffmanNode node;
+        HuffmanNode l;
+        HuffmanNode r;
+        if(comesBefore(a,b)){
+             l = a;
+             r = b;
+        }
+        else{
+            l =b;
+            r = a;
+        }
+        node =new HuffmanNode(Math.min(a.charAscii,b.charAscii),(a.freq +b.freq),l,r);
+        return node;
     }
 
     /**

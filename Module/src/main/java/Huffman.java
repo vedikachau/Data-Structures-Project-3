@@ -1,9 +1,11 @@
 import java.io.*;
 import java.util.*;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 //helllo hello
-///elle: cntFreq,
-/// comesBefore, combine, addNode, removeMin,
+///elle: , addNode Remove Min
+///done?: comesBefore, combine, cnt freq
 /**
  * Project 3: Huffman Encoding / Decoding.
  *
@@ -26,6 +28,8 @@ import java.util.*;
  */
 public class Huffman {
 
+
+
     /** Number of possible 8-bit character values. */
     public static final int NUM_CHARS = 256;
 
@@ -37,7 +41,14 @@ public class Huffman {
      */
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
-        // TODO: implement
+        Scanner input = new Scanner(new File(filename));
+        input.useDelimiter("\\Z"); //i had to google this 1 ngl
+        String str = input.hasNext() ? input.next() : "";
+        for(int i = 0; i < str.length(); i++){
+          int ascii = (int) str.charAt(i);
+          freq[ascii]++;
+        }
+        input.close();
         return freq;
     }
 
@@ -52,7 +63,12 @@ public class Huffman {
      * PriorityQueue. How you implement this method depends on which you pick.
      */
     public static void addNode(Collection<HuffmanNode> collection, HuffmanNode node) {
-        // TODO: implement
+        ArrayList<HuffmanNode> list = (ArrayList<HuffmanNode>) collection;
+        int i = 0;
+        while(i<list.size() && HuffmanNode.comesBefore(list.get(i),node)){
+            i++;
+        }
+        list.add(i,node);
     }
 
     /**
@@ -66,8 +82,11 @@ public class Huffman {
      * minimum node and remove it.
      */
     public static HuffmanNode removeMin(Collection<HuffmanNode> collection) {
-        // TODO: implement
-        return null;
+        if(collection.isEmpty()){
+            return null;
+        }
+        ArrayList<HuffmanNode> kys = (ArrayList<HuffmanNode>)  collection;
+        return kys.remove(0);
     }
 
     /**
@@ -101,7 +120,26 @@ should return null (or None, per your language).
 • Special case: if freqList has exactly one non-zero count (the input file has only one unique
 character), createHuffTree should return a single node containing that character and its count, with
 no children. */
-        return null;
+        ArrayList<HuffmanNode> coll = new ArrayList<>();
+
+        for(int i = 0; i<freq.length;i++){
+            if(freq[i]>0){
+                HuffmanNode n = new HuffmanNode(i,freq[i]);
+                addNode(coll,n);
+            }
+        }
+        
+        if(coll.isEmpty()){
+            return null;
+        }
+
+        while(coll.size() >1){
+            HuffmanNode l = removeMin(coll);
+            HuffmanNode r = removeMin(coll);
+            HuffmanNode con = HuffmanNode.combine(l,r);
+            addNode(coll,con);
+        }
+        return removeMin(coll);
     }
 
     /**
