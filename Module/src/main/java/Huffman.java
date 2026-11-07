@@ -171,7 +171,9 @@ no children. */
         String[] codes = new String[NUM_CHARS];
         Arrays.fill(codes, "");
         // TODO: implement
-        createString(root, "", codes);
+        if(root.left()!=null && root.right()!=null){
+            createString(root, "", codes);
+        }
         //need to traverse tree and build the code for each character
         return codes;
     }
@@ -220,17 +222,24 @@ no children. */
         String str = input.hasNext() ? input.next() : "";
         String output = "";
         //special cases
+        int check = 0;
+        int[] freq = cntFreq(inFile);
+        for (int i=0;i<freq.length;i++){
+            if(freq[i]!=0){
+                check++;
+            }
+        }
         if(str.equals("")){
             output = "";
         }
         //how to get freq array here? if we parseHeader and it has only 2 items?
         //should we do output up here and then check something about it in the if
-        else if(/*what to check here */){
-            output = createHeader(cntFreq(inFile));
+        else if(check==1){
+            output = createHeader(freq) + "\n";
         }
         else{
-            output = createHeader(cntFreq(inFile)) + "\n";
-            String[] codes = createCode(createHuffTree(cntFreq(inFile)));
+            output = createHeader(freq) + "\n";
+            String[] codes = createCode(createHuffTree(freq);
             for(int i=0;i<str.length();i++){
                 //can't be i, needs to somehow be that char's ascci value
                 int ascii = (int) str.charAt(i);
@@ -252,8 +261,13 @@ no children. */
         int[] freq = new int[NUM_CHARS];
         String[] headerStrArray = headerString.split(" ");
         // TODO: implement
-        for(int i=0;i<headerStrArray.length;i+=2){
-            freq[Integer.valueOf(headerStrArray[i])] = Integer.valueOf(headerStrArray[i+1]);
+        if(headerString.equals("")){
+            return freq;
+        }
+        else{
+            for(int i=0;i<headerStrArray.length;i+=2){
+                freq[Integer.valueOf(headerStrArray[i])] = Integer.valueOf(headerStrArray[i+1]);
+            }
         }
         return freq;
     }
@@ -286,33 +300,35 @@ no children. */
         String line1 = lines[0];
         int[] freqArray = parseHeader(line1);
         String output = "";
+        int index = 0;
         if(lines.length==1) {
             //how do you find the index properly of the thing
-            while (freqArray[0] != 0) {
-                output += ((char) );
-                freqArray[1]--;
+            for (int i=0;i<freqArray.length;i++){
+                if(freqArray[i]!=0){
+                    index=i;
+                    break;
+                }
+            }
+            while (freqArray[index] != 0) {
+                output += ((char) index);
+                freqArray[index]--;
             }
         }
         else{
-            //not supposed to be freq array because it;s not indexed properly
             String line2 = lines[1];
             HuffmanNode n = createHuffTree(freqArray);
+            HuffmanNode temp = n;
             //use create codes?
-            String[] s = createCode(n);
-            String temp = "";
             for(int i=0;i<line2.length();i++){
-                while(n.left()!=null && n.right()!=null){
-                    i++;
-                    temp+=line2.substring(i,i+1);
+                if(line2.charAt(i)=='0'){
+                    temp = temp.left();
                 }
-                if(n.left()==null && n.right()==null){
-                    //take its code and match it to the ascii of it
-                    //look for temp in the array
-                    for(int j=0;j<s.length;j++){
-                        if(temp==s[j]){
-                            output+=j;
-                        }
-                    }
+                if(line2.charAt(i)=='1'){
+                    temp = temp.right();
+                }
+                if(temp==null){
+                    output+=((char) temp.charAscii());
+                    temp = n;
                 }
             }
         }
