@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.io.IOException;
 import java.util.Scanner;
 //helllo hello
@@ -185,15 +187,16 @@ no children. */
     public static String createHeader(int[] freq) {
         // TODO: implement
         String s = "";
-        //how to define index since i don't want i to be 0
-        //i want it to start at the specified index of freq
         for (int i=0;i<freq.length;i++){
             if(freq[i]!=0){
                 s+=i+" " + freq[i] + " ";
             }
         }
         //to get rid of last space
-        return s.substring(0, s.length()-1);
+        if(s.length()>0){
+            return s.substring(0, s.length()-1);
+        }
+        return s;
     }
 
     /**
@@ -211,22 +214,30 @@ no children. */
      */
     public static void huffmanEncode(String inFile, String outFile) throws IOException {
         // TODO: implement
+        //make the file into a string
+        Scanner input = new Scanner(new File(inFile));
+        input.useDelimiter("\\Z");
+        String str = input.hasNext() ? input.next() : "";
+        String output = "";
         //special cases
-        if(inFile==""){
-            outFile="";
+        if(str.equals("")){
+            output = "";
         }
-        else if(inFile.length()==1){
-            outFile = createHeader(cntFreq(inFile));
+        //how to get freq array here? if we parseHeader and it has only 2 items?
+        else if(){
+            output = createHeader(cntFreq(inFile));
         }
         else{
-            outFile = createHeader(cntFreq(inFile)) + "\n";
+            output = createHeader(cntFreq(inFile)) + "\n";
             String[] codes = createCode(createHuffTree(cntFreq(inFile)));
-            for(int i=0;i<inFile.length()-1;i++){
+            for(int i=0;i<str.length();i++){
                 //can't be i, needs to somehow be that char's ascci value
-                int ascii = (int) inFile.charAt(i);
-                outFile+=codes[ascii];
+                int ascii = (int) str.charAt(i);
+                output+=codes[ascii];
             }
         }
+        //need to make the outfile string into a file
+        Files.writeString(Path.of(outFile), output);
     }
 
     /**
@@ -241,9 +252,8 @@ no children. */
         String[] headerStrArray = headerString.split(" ");
         // TODO: implement
         for(int i=0;i<headerStrArray.length;i+=2){
-            freq[headerStrArray[i].toInt()] = headerStrArray[i+1];
+            freq[Integer.valueOf(headerStrArray[i])] = Integer.valueOf(headerStrArray[i+1]);
         }
-        //work more on this
         return freq;
     }
 
@@ -264,5 +274,51 @@ no children. */
      */
     public static void huffmanDecode(String encodedFile, String decodeFile) throws IOException {
         // TODO: implement
+        //encoded file basically is outfile from Huffman encode
+
+        //special case if the encoded file has only one line
+        Scanner input = new Scanner(new File(encodedFile));
+        input.useDelimiter("\\Z");
+        String str = input.hasNext() ? input.next() : "";
+
+        String[] lines = str.split("\n");
+        String line1 = lines[0];
+        int[] freqArray = parseHeader(line1);
+        String output = "";
+        if(lines.length==1) {
+            //how do you find the index properly of the thing
+            while (freqArray[0] != 0) {
+                output += ((char) );
+                freqArray[1]--;
+            }
+        }
+        else{
+            //not supposed to be freq array because it;s not indexed properly
+            String line2 = lines[1];
+            HuffmanNode n = createHuffTree(freqArray);
+            //use create codes?
+            String[] s = createCode(n);
+            String temp = "";
+            for(int i=0;i<line2.length();i++){
+                while(n.left()!=null && n.right()!=null){
+                    i++;
+                    temp+=line2.substring(i,i+1);
+                }
+                if(n.left()==null && n.right()==null){
+                    //take its code and match it to the ascii of it
+                    //look for temp in the array
+                    for(int j=0;j<s.length;j++){
+                        if(temp==s[j]){
+                            output+=j;
+                        }
+                    }
+                }
+            }
+        }
+        Files.writeString(Path.of(decodeFile), output);
     }
+
+
+
+
 }

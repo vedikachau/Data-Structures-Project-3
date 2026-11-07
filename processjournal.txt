@@ -1,0 +1,5 @@
+
+
+
+11/7/2026: Worked on createCode and wrote a helper for it. Also worked on Huffman encode, decode,
+parseHeader, and createHeader.
