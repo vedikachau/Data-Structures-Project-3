@@ -1,5 +1,5 @@
 
 
 
-11/7/2026: Worked on createCode and wrote a helper for it. Also worked on Huffman encode, decode,
-parseHeader, and createHeader.
+11/7/2026 9:30-11:30: Worked on createCode and wrote a helper for it. Also worked on Huffman encode, decode,
+parseHeader, and createHeader. Stuck on edge cases and ecode and decode.

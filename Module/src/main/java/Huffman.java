@@ -224,7 +224,8 @@ no children. */
             output = "";
         }
         //how to get freq array here? if we parseHeader and it has only 2 items?
-        else if(){
+        //should we do output up here and then check something about it in the if
+        else if(/*what to check here */){
             output = createHeader(cntFreq(inFile));
         }
         else{
