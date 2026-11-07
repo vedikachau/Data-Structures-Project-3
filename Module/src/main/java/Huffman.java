@@ -154,10 +154,22 @@ no children. */
      * left/right branch to build a code out of; huffmanEncode/huffmanDecode
      * handle that case entirely through the header.
      */
+
+    //for BST
+    //start at root, if less than, go left, add 0 to string, call function again with that node as root
+    //if greater than, go right, add 1 to string, call function with that node as root
+    //if node==the value you're searing for, stop and return the string
+    //what would exit condition be?
+    //if root never equals value when to check that, then return ""
+
     public static String[] createCode(HuffmanNode root) {
         String[] codes = new String[NUM_CHARS];
         Arrays.fill(codes, "");
         // TODO: implement
+        for(int i=0;i<codes.length;i++){
+            //call helper function on each to build the codes
+            //codes[i] = //string of 0 and 1
+        }
         //need to traverse tree and build the code for each character
         return codes;
     }
