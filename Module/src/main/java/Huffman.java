@@ -155,21 +155,21 @@ no children. */
      * handle that case entirely through the header.
      */
 
-    //for BST
-    //start at root, if less than, go left, add 0 to string, call function again with that node as root
-    //if greater than, go right, add 1 to string, call function with that node as root
-    //if node==the value you're searing for, stop and return the string
-    //what would exit condition be?
-    //if root never equals value when to check that, then return ""
+    //helper method
+    public static void createString(HuffmanNode n, String s, String[] c){
+        if(n.left()!=null && n.right()!=null){
+            createString(n.left(), s+"0", c);
+            createString(n.right(), s+"1", c);
+        }else{
+            c[n.charAscii()] = s;
+        }
+    }
 
     public static String[] createCode(HuffmanNode root) {
         String[] codes = new String[NUM_CHARS];
         Arrays.fill(codes, "");
         // TODO: implement
-        for(int i=0;i<codes.length;i++){
-            //call helper function on each to build the codes
-            //codes[i] = //string of 0 and 1
-        }
+        createString(root, "", codes);
         //need to traverse tree and build the code for each character
         return codes;
     }
@@ -184,12 +184,16 @@ no children. */
      */
     public static String createHeader(int[] freq) {
         // TODO: implement
-        //work more on this
         String s = "";
+        //how to define index since i don't want i to be 0
+        //i want it to start at the specified index of freq
         for (int i=0;i<freq.length;i++){
-            s+=freq[i] + "";
+            if(freq[i]!=0){
+                s+=i+" " + freq[i] + " ";
+            }
         }
-        return s;
+        //to get rid of last space
+        return s.substring(0, s.length()-1);
     }
 
     /**
@@ -207,8 +211,21 @@ no children. */
      */
     public static void huffmanEncode(String inFile, String outFile) throws IOException {
         // TODO: implement
+        //special cases
         if(inFile==""){
             outFile="";
+        }
+        else if(inFile.length()==1){
+            outFile = createHeader(cntFreq(inFile));
+        }
+        else{
+            outFile = createHeader(cntFreq(inFile)) + "\n";
+            String[] codes = createCode(createHuffTree(cntFreq(inFile)));
+            for(int i=0;i<inFile.length()-1;i++){
+                //can't be i, needs to somehow be that char's ascci value
+                int ascii = (int) inFile.charAt(i);
+                outFile+=codes[ascii];
+            }
         }
     }
 
@@ -221,7 +238,11 @@ no children. */
      */
     public static int[] parseHeader(String headerString) {
         int[] freq = new int[NUM_CHARS];
+        String[] headerStrArray = headerString.split(" ");
         // TODO: implement
+        for(int i=0;i<headerStrArray.length;i+=2){
+            freq[headerStrArray[i].toInt()] = headerStrArray[i+1];
+        }
         //work more on this
         return freq;
     }
