@@ -57,12 +57,48 @@ public class HuffmanTest {
         assertEquals(c,d);
     }
     @Test
-    public void addNode(){
+    public void addNode() {
+        ArrayList<HuffmanNode> list = new ArrayList<>();
+        HuffmanNode a = new HuffmanNode(97, 4);
+        HuffmanNode b = new HuffmanNode(98, 3);
+        HuffmanNode space = new HuffmanNode(32, 3); // ties with b, smaller ASCII
+        HuffmanNode d = new HuffmanNode(100, 1);
 
+        Huffman.addNode(list, a);
+        Huffman.addNode(list, b);
+        Huffman.addNode(list, space);
+        Huffman.addNode(list, d);
+
+        assertEquals(4, list.size());
+        assertEquals(d, list.get(0));
+        assertEquals(space, list.get(1)); // tie broken by ASCII value
+        assertEquals(b, list.get(2));
+        assertEquals(a, list.get(3));
     }
-    @Test
-    public void removemin(){
 
+    @Test
+    public void removemin() {
+        ArrayList<HuffmanNode> list = new ArrayList<>();
+        HuffmanNode a = new HuffmanNode(97, 4);
+        HuffmanNode b = new HuffmanNode(98, 3);
+        HuffmanNode space = new HuffmanNode(32, 3);
+        HuffmanNode d = new HuffmanNode(100, 1);
+        Huffman.addNode(list, a);
+        Huffman.addNode(list, b);
+        Huffman.addNode(list, space);
+        Huffman.addNode(list, d);
+
+        assertEquals(d, Huffman.removeMin(list));
+        assertEquals(3, list.size()); //node was removed
+        assertEquals(space, Huffman.removeMin(list));
+        assertEquals(b, Huffman.removeMin(list));
+        assertEquals(a, Huffman.removeMin(list));
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void removeminEmptyCollection() {
+        assertNull(Huffman.removeMin(new ArrayList<HuffmanNode>()));
     }
     /**
      * Compares two files line by line, trimming trailing CR/LF so the
