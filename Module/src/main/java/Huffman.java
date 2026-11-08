@@ -157,27 +157,26 @@ no children. */
      * handle that case entirely through the header.
      */
 
+    public static String[] createCode(HuffmanNode root) {
+        String[] codes = new String[NUM_CHARS];
+        Arrays.fill(codes, "");
+        // TODO: implement
+        createString(root, "", codes);
+        //need to traverse tree and build the code for each character
+        return codes;
+    }
+
     //helper method
     public static void createString(HuffmanNode n, String s, String[] c){
-        if(n.left()!=null && n.right()!=null){
+        if(n==null){
+            s = "";
+        } else if (n.left()!=null && n.right()!=null){
             createString(n.left(), s+"0", c);
             createString(n.right(), s+"1", c);
         }else{
             c[n.charAscii()] = s;
         }
     }
-
-    public static String[] createCode(HuffmanNode root) {
-        String[] codes = new String[NUM_CHARS];
-        Arrays.fill(codes, "");
-        // TODO: implement
-        if(root.left()!=null && root.right()!=null){
-            createString(root, "", codes);
-        }
-        //need to traverse tree and build the code for each character
-        return codes;
-    }
-
     /**
      * Given a frequency array (as produced by cntFreq()), returns a
      * header string listing the ASCII values and their associated
@@ -235,11 +234,11 @@ no children. */
         //how to get freq array here? if we parseHeader and it has only 2 items?
         //should we do output up here and then check something about it in the if
         else if(check==1){
-            output = createHeader(freq) + "\n";
+            output = createHeader(freq);
         }
         else{
             output = createHeader(freq) + "\n";
-            String[] codes = createCode(createHuffTree(freq);
+            String[] codes = createCode(createHuffTree(freq));
             for(int i=0;i<str.length();i++){
                 //can't be i, needs to somehow be that char's ascci value
                 int ascii = (int) str.charAt(i);
@@ -247,6 +246,7 @@ no children. */
             }
         }
         //need to make the outfile string into a file
+        input.close();
         Files.writeString(Path.of(outFile), output);
     }
 
@@ -326,12 +326,13 @@ no children. */
                 if(line2.charAt(i)=='1'){
                     temp = temp.right();
                 }
-                if(temp==null){
+                if(temp.left()==null && temp.right()==null){
                     output+=((char) temp.charAscii());
                     temp = n;
                 }
             }
         }
+        input.close();
         Files.writeString(Path.of(decodeFile), output);
     }
 

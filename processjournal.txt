@@ -1,5 +1,8 @@
 
 
+11/6/2026 8:30-10:25 pm: Worked on createCode, could not figure out
 
-11/7/2026 9:30-11:30: Worked on createCode and wrote a helper for it. Also worked on Huffman encode, decode,
+11/7/2026 9:30-11:30 am: Worked on createCode and wrote a helper for it. Also worked on Huffman encode, decode,
 parseHeader, and createHeader. Stuck on edge cases and ecode and decode.
+
+11/7/2026 2:12-4:00 pm: finished functions and added test cases
