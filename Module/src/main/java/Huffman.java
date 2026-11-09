@@ -41,6 +41,7 @@ public class Huffman {
      * Returns an int array of size NUM_CHARS, indexed by ASCII value, with
      * the count of each character (0 for characters that do not occur).
      */
+    //return array of frequencies indexed by ascii value
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
         Scanner input = new Scanner(new File(filename));
@@ -64,6 +65,7 @@ public class Huffman {
      * HuffmanNode.comesBefore() as you insert (an "ordered list"), or a
      * PriorityQueue. How you implement this method depends on which you pick.
      */
+    //add node to collection in order
     public static void addNode(Collection<HuffmanNode> collection, HuffmanNode node) {
         ArrayList<HuffmanNode> list = (ArrayList<HuffmanNode>) collection;
         int i = 0;
@@ -83,6 +85,7 @@ public class Huffman {
      * with a PriorityQueue, poll() it; for any other collection, find the
      * minimum node and remove it.
      */
+    //remove and return minimum node in collection
     public static HuffmanNode removeMin(Collection<HuffmanNode> collection) {
         if(collection.isEmpty()){
             return null;
@@ -107,6 +110,7 @@ public class Huffman {
      *    one unique character), return a single leaf HuffmanNode for that
      *    character (no combine() call needed).
      */
+    //build huffman tree from frequencies and return root node
     public static HuffmanNode createHuffTree(int[] freq) {
         // TODO: implement
         /*returns the root node of the resulting Huffman tree.
@@ -157,6 +161,7 @@ no children. */
      * handle that case entirely through the header.
      */
 
+    //build code for each char using huffman node, returns array indexed by ascii value
     public static String[] createCode(HuffmanNode root) {
         String[] codes = new String[NUM_CHARS];
         Arrays.fill(codes, "");
@@ -166,7 +171,7 @@ no children. */
         return codes;
     }
 
-    //helper method
+    //helper method for create code which creates the code for each char + adds in array
     public static void createString(HuffmanNode n, String s, String[] c){
         if(n==null){
             s = "";
@@ -185,6 +190,7 @@ no children. */
      *
      * Example: for the text "aaabbbbcc" this returns "97 3 98 4 99 2".
      */
+    //returns ascii value and freequencies as string using frequency array
     public static String createHeader(int[] freq) {
         // TODO: implement
         String s = "";
@@ -213,6 +219,7 @@ no children. */
      *  - Input file with only one unique character: should contain only the
      *    header line (e.g. "97 5") and nothing else - no second line of code bits.
      */
+    //given a file, returns encoded file with header line and huffman ecode of the inFile
     public static void huffmanEncode(String inFile, String outFile) throws IOException {
         // TODO: implement
         //make the file into a string
@@ -255,6 +262,7 @@ no children. */
      *
      * Example: for the header "97 3 98 4 99 2", freq[97, 98, 99] == {3, 4, 2}.
      */
+    //return int array of frequencies indexed by ascii value
     public static int[] parseHeader(String headerString) {
         int[] freq = new int[NUM_CHARS];
         String[] headerStrArray = headerString.split(" ");
@@ -285,6 +293,7 @@ no children. */
      * The header's count alone tells you how many times that character occurred,
      * so write it out that many times directly.
      */
+    //given encoded file, return the decoded file by traversing tree and finding the chars
     public static void huffmanDecode(String encodedFile, String decodeFile) throws IOException {
         // TODO: implement
         //encoded file basically is outfile from Huffman encode
@@ -300,7 +309,6 @@ no children. */
         String output = "";
         int index = 0;
         if(lines.length==1) {
-            //how do you find the index properly of the thing
             for (int i=0;i<freqArray.length;i++){
                 if(freqArray[i]!=0){
                     index=i;

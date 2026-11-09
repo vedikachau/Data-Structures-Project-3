@@ -34,12 +34,6 @@ public class HuffmanTest {
     }
 
     @Test
-    public void testCreateHeader() throws IOException {
-        int[] freqList = Huffman.cntFreq("file2.txt");
-        assertEquals("97 2 98 4 99 8 100 16 102 2", Huffman.createHeader(freqList));
-    }
-
-    @Test
     public void test01Textfile() throws IOException {
         Huffman.huffmanEncode("file1.txt", "file1_out.txt");
         assertTrue(compareFiles("file1_out.txt", "file1_soln.txt"));
@@ -122,7 +116,63 @@ public class HuffmanTest {
         }
     }
 
+    @Test
+    public void testCreateHuffTreeEmpty() {
+        assertNull(Huffman.createHuffTree(new int[Huffman.NUM_CHARS]));
+    }
+
+    @Test
+    public void testCreateHuffTreeUniqueChar() {
+        int[] freq = new int[Huffman.NUM_CHARS];
+        freq[97] = 5;
+        HuffmanNode root = Huffman.createHuffTree(freq);
+        assertEquals(new HuffmanNode(97, 5), root);
+        assertNull(root.left());
+        assertNull(root.right());
+    }
+
+    @Test
+    public void testCreateHuffTreeTwoChars() {
+        int[] freq = new int[Huffman.NUM_CHARS];
+        freq[97] = 1;
+        freq[98] = 2;
+        HuffmanNode expected = new HuffmanNode(97, 3,
+                new HuffmanNode(97, 1),
+                new HuffmanNode(98, 2));
+        assertEquals(expected, Huffman.createHuffTree(freq));
+    }
+
+    @Test
+    public void testCreateHuffTreeWorkedExample() {
+        int[] freq = new int[Huffman.NUM_CHARS];
+        freq[32] = 3;
+        freq[97] = 4;
+        freq[98] = 3;
+        freq[99] = 2;
+        freq[100] = 1;
+
+        HuffmanNode spaceLeaf = new HuffmanNode(32, 3);
+        HuffmanNode bLeaf = new HuffmanNode(98, 3);
+        HuffmanNode aLeaf = new HuffmanNode(97, 4);
+        HuffmanNode cLeaf = new HuffmanNode(99, 2);
+        HuffmanNode dLeaf = new HuffmanNode(100, 1);
+
+        HuffmanNode dcNode = new HuffmanNode(99, 3, dLeaf, cLeaf);          // 3 / 'c'
+        HuffmanNode spaceBNode = new HuffmanNode(32, 6, spaceLeaf, bLeaf);  // 6 / ' ' (tie: ' ' before 'b')
+        HuffmanNode rightNode = new HuffmanNode(97, 7, dcNode, aLeaf);      // 7 / 'a'
+        HuffmanNode expectedRoot = new HuffmanNode(32, 13, spaceBNode, rightNode); // 13 / ' '
+
+        assertEquals(expectedRoot, Huffman.createHuffTree(freq));
+    }
+
+
     //create header
+    @Test
+    public void testCreateHeader() throws IOException {
+        int[] freqList = Huffman.cntFreq("file2.txt");
+        assertEquals("97 2 98 4 99 8 100 16 102 2", Huffman.createHeader(freqList));
+    }
+
     @Test
     public void testCreateHeaderEmpty() {
         assertEquals("", Huffman.createHeader(new int[Huffman.NUM_CHARS]));
@@ -222,10 +272,16 @@ public class HuffmanTest {
 
     //huffman decode
     @Test
-    public void testHuffmanDecodeExample() throws IOException {
-
+    public void testHuffmanDecode() throws IOException {
+        Huffman.huffmanDecode("file2_soln.txt", "file2.txt");
+        assertTrue(compareFiles("file2.txt", "file2_org.txt"));
     }
 
+    @Test
+    public void testHuffmanDecodeMultipleLines() throws IOException {
+        Huffman.huffmanDecode("multiline_soln.txt", "multiline.txt");
+        assertTrue(compareFiles("multiline.txt", "multiline_org.txt"));
+    }
 
     //just one line
     @Test
@@ -234,17 +290,17 @@ public class HuffmanTest {
         assertTrue(compareFiles("file3_org.txt", "file3.txt"));
     }
 
-    //if file doesn't exist
-    /*@Test
+    @Test
     public void testHuffmanDecodeEmptyFile() throws IOException {
-
-    }*/
+        Huffman.huffmanDecode("file4_soln.txt", "file4.txt");
+        assertTrue(compareFiles("file4_out.txt", "file4.txt"));
+    }
 
     @Test
     public void testHuffmanDecodeMissingFile() {
         assertThrows(FileNotFoundException.class, () ->
-                Huffman.huffmanEncode("file4.txt",
-                        "file4_soln.txt"));
+                Huffman.huffmanDecode("file5.txt",
+                        "file5_soln.txt"));
     }
 
 
