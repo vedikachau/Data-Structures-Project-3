@@ -231,8 +231,6 @@ no children. */
         if(str.equals("")){
             output = "";
         }
-        //how to get freq array here? if we parseHeader and it has only 2 items?
-        //should we do output up here and then check something about it in the if
         else if(check==1){
             output = createHeader(freq);
         }
@@ -240,7 +238,7 @@ no children. */
             output = createHeader(freq) + "\n";
             String[] codes = createCode(createHuffTree(freq));
             for(int i=0;i<str.length();i++){
-                //can't be i, needs to somehow be that char's ascci value
+                //can't be i, needs to be that char's ascci value
                 int ascii = (int) str.charAt(i);
                 output+=codes[ascii];
             }

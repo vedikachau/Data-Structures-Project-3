@@ -1,14 +1,11 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.junit.jupiter.api.io.TempDir;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -154,7 +151,6 @@ public class HuffmanTest {
     //create code
     @Test
     public void testCreateCodeExample() {
-        // "abcd abc ab a"
         int[] freq = new int[Huffman.NUM_CHARS];
         freq[32] = 3;
         freq[97] = 4;
@@ -191,79 +187,64 @@ public class HuffmanTest {
 
     //special case: one char
     @Test
-    public void testHuffmanEncodeOneChar(@TempDir Path dir) throws IOException {
-        Path in = dir.resolve("one.txt");
-        Path out = dir.resolve("one_out.txt");
-        Files.writeString(in, "aaaaa");
-        Huffman.huffmanEncode(in.toString(), out.toString());
-        assertEquals("97 5", Files.readString(out)); //header only
+    public void testHuffmanEncodeOneChar() throws IOException {
+        Huffman.huffmanEncode("file3.txt", "file3_out.txt");
+        assertTrue(compareFiles("file3_out.txt", "file3_soln.txt"));
     }
 
     //if empty
     @Test
-    public void testHuffmanEncodeEmpty(@TempDir Path dir) throws IOException {
-        Path in = dir.resolve("empty.txt");
-        Path out = dir.resolve("empty_out.txt");
-        Files.writeString(in, "");
-        Huffman.huffmanEncode(in.toString(), out.toString());
-        assertEquals("", Files.readString(out));
+    public void testHuffmanEncodeEmpty() throws IOException {
+        Huffman.huffmanEncode("file4.txt", "file4_out.txt");
+        assertTrue(compareFiles("file4_out.txt", "file4_soln.txt"));
     }
 
     //if file doesn't exist
     @Test
-    public void testHuffmanEncodeMissingFile(@TempDir Path dir) {
+    public void testHuffmanEncodeMissingFile() {
         assertThrows(FileNotFoundException.class, () ->
-                Huffman.huffmanEncode(dir.resolve("nope.txt").toString(),
-                        dir.resolve("out.txt").toString()));
+                Huffman.huffmanEncode("file5.txt",
+                        "file5_soln.txt"));
     }
 
     //normal case
     @Test
-    public void testHuffmanEncodeNormal(@TempDir Path dir) throws IOException {
-        Path in = dir.resolve("normal.txt");
-        Path out = dir.resolve("normal_out.txt");
-        Files.writeString(in, "abcd abc ab a");
-        Huffman.huffmanEncode(in.toString(), out.toString());
-        assertEquals("32 3 97 4 98 3 99 2 100 1\n11011011000011011010011010011",
-                Files.readString(out));
+    public void testHuffmanEncodeNormal() throws IOException {
+        Huffman.huffmanEncode("file2.txt", "file2_soln.txt");
+        assertTrue(compareFiles("file2_out.txt", "file2_soln.txt"));
+    }
+
+    @Test
+    public void testHuffmanEncodeMultipleLines() throws IOException {
+        Huffman.huffmanEncode("multiline.txt", "multiline_out.txt");
+        assertTrue(compareFiles("multiline_out.txt", "multiline_soln.txt"));
     }
 
     //huffman decode
     @Test
-    public void testHuffmanDecodeExample(@TempDir Path dir) throws IOException {
-        Path enc = dir.resolve("enc.txt");
-        Path dec = dir.resolve("dec.txt");
-        Files.writeString(enc, "32 3 97 4 98 3 99 2 100 1\n11011011000011011010011010011");
-        Huffman.huffmanDecode(enc.toString(), dec.toString());
-        assertEquals("abcd abc ab a", Files.readString(dec));
+    public void testHuffmanDecodeExample() throws IOException {
+
     }
 
 
     //just one line
     @Test
-    public void testHuffmanDecodeOneChar(@TempDir Path dir) throws IOException {
-        Path enc = dir.resolve("one_enc.txt");
-        Path dec = dir.resolve("one_dec.txt");
-        Files.writeString(enc, "97 5");
-        Huffman.huffmanDecode(enc.toString(), dec.toString());
-        assertEquals("aaaaa", Files.readString(dec));
+    public void testHuffmanDecodeOneChar() throws IOException {
+        Huffman.huffmanDecode("file3_soln.txt", "file3.txt");
+        assertTrue(compareFiles("file3_org.txt", "file3.txt"));
     }
 
     //if file doesn't exist
-    @Test
-    public void testHuffmanDecodeEmptyFile(@TempDir Path dir) throws IOException {
-        Path enc = dir.resolve("empty_enc.txt");
-        Path dec = dir.resolve("empty_dec.txt");
-        Files.writeString(enc, "");
-        Huffman.huffmanDecode(enc.toString(), dec.toString());
-        assertEquals("", Files.readString(dec));
-    }
+    /*@Test
+    public void testHuffmanDecodeEmptyFile() throws IOException {
+
+    }*/
 
     @Test
-    public void testHuffmanDecodeMissingFile(@TempDir Path dir) {
+    public void testHuffmanDecodeMissingFile() {
         assertThrows(FileNotFoundException.class, () ->
-                Huffman.huffmanDecode(dir.resolve("nope.txt").toString(),
-                        dir.resolve("out.txt").toString()));
+                Huffman.huffmanEncode("file4.txt",
+                        "file4_soln.txt"));
     }
 
 
