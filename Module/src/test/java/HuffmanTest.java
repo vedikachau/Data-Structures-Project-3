@@ -40,6 +40,65 @@ public class HuffmanTest {
     }
 
     @Test
+    public void testIsLeaf() {
+        assertTrue(new HuffmanNode(97, 5).isLeaf());
+    }
+
+    @Test
+    public void testIsLeafFalse() {
+        HuffmanNode n = new HuffmanNode(97, 3,
+                new HuffmanNode(97, 1),
+                new HuffmanNode(98, 2));
+        assertEquals(false, n.isLeaf());
+    }
+
+    @Test
+    public void testCombineOtherWay() {
+        HuffmanNode a = new HuffmanNode(67, 23);
+        HuffmanNode b = new HuffmanNode(24, 25);
+        HuffmanNode result = HuffmanNode.combine(b, a);
+        assertEquals(new HuffmanNode(24, 48, a, b), result);
+    }
+
+    @Test
+    public void testCombineTieBreak() {
+        HuffmanNode space = new HuffmanNode(32, 3);
+        HuffmanNode b = new HuffmanNode(98, 3);
+        HuffmanNode result = HuffmanNode.combine(b, space);
+        assertEquals(new HuffmanNode(32, 6, space, b), result);
+    }
+
+    @Test
+    public void testCompareLess() {
+        HuffmanNode small = new HuffmanNode(97, 1);
+        HuffmanNode big = new HuffmanNode(98, 2);
+        assertEquals(-1, small.compareTo(big));
+    }
+
+    @Test
+    public void testCompareGreater() {
+        HuffmanNode small = new HuffmanNode(97, 1);
+        HuffmanNode big = new HuffmanNode(98, 2);
+        assertEquals(1, big.compareTo(small));
+    }
+
+    @Test
+    public void testCompareEqual() {
+        HuffmanNode x = new HuffmanNode(97, 4);
+        HuffmanNode y = new HuffmanNode(97, 4);
+        assertEquals(0, x.compareTo(y));
+    }
+
+    @Test
+    public void testCompareToTie() {
+        HuffmanNode d = new HuffmanNode('d', 5);
+        HuffmanNode k = new HuffmanNode('k', 5);
+        assertEquals(-1, d.compareTo(k));
+        assertEquals(1, k.compareTo(d));
+    }
+
+
+    @Test
     public void combine(){
         HuffmanNode a = new HuffmanNode(67, 23);
         HuffmanNode b = new HuffmanNode(24, 25);
